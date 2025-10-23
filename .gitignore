@@ -47,5 +47,5 @@ linux/flutter/*.cmake
 macos/Flutter/*.swift
 windows/flutter/*.cc
 windows/flutter/*.h
+windows/flutter/*.cmake
 pubspec.lock
-linux/flutter/generated_plugin_registrant.cc
