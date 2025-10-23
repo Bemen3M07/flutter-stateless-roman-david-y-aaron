@@ -48,3 +48,4 @@ macos/Flutter/*.swift
 windows/flutter/*.cc
 windows/flutter/*.h
 pubspec.lock
+linux/flutter/generated_plugin_registrant.cc
