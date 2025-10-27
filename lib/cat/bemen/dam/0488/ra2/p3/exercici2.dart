@@ -1,3 +1,5 @@
+// Exercici 2: Pantalla de benvinguda amb dos botons (Login i Register)
+// Només s'afegeixen comentaris descriptius; no es modifica cap línia de lògica.
 // Importa el paquete principal de Flutter que contiene widgets y utilidades
 import 'package:flutter/material.dart'; 
 

@@ -1,3 +1,5 @@
+// Exercici 5: Llista de missatges amb càrrega incremental en fer scroll al final
+// En aquest fitxer afegim comentaris per descriure la lògica i els widgets utilitzats.
 import 'dart:math';
 import 'package:flutter/material.dart';
 
@@ -20,7 +22,7 @@ class MessageListApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Message List',
-      home: const MessageListScreen(),
+      home: const MessageListScreen(), // Pantalla principal amb la llista de missatges
     );
   }
 }
@@ -33,8 +35,8 @@ class MessageListScreen extends StatefulWidget {
 }
 
 class _MessageListScreenState extends State<MessageListScreen> {
-  final List<Message> _messages = [];
-  final _random = Random();
+  final List<Message> _messages = []; // Emmagatzema els missatges que es mostren
+  final _random = Random(); // Utilitzat per triar noms aleatòriament
 
   final List<String> _names = [
     "Ellison Curry",
@@ -67,15 +69,16 @@ class _MessageListScreenState extends State<MessageListScreen> {
   @override
   void initState() {
     super.initState();
-    _loadMoreMessages();
+    _loadMoreMessages(); // Carrega un primer lot de missatges en iniciar la pantalla
   }
 
   void _loadMoreMessages() {
+    // Genera un conjunt de missatges nous amb autors aleatoris
     final newMessages = List.generate(20, (index) {
       return Message(_names[_random.nextInt(_names.length)], _body);
     });
     setState(() {
-      _messages.addAll(newMessages);
+      _messages.addAll(newMessages); // Afegeix els nous missatges a la llista existent
     });
   }
 
@@ -85,6 +88,7 @@ class _MessageListScreenState extends State<MessageListScreen> {
       appBar: AppBar(title: const Text('Message List')),
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollInfo) {
+          // Quan arriben al final del scroll, carreguem més missatges
           if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
             _loadMoreMessages();
           }
@@ -99,12 +103,12 @@ class _MessageListScreenState extends State<MessageListScreen> {
                 top: 6,
                 bottom: 6,
                 left: 8,
-                right: 60, // 👈 espacio extra a la derecha para que no ocupe todo el ancho
+                right: 60, // Espai extra a la dreta per no ocupar tot l'ample
               ),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(8),
+                color: Colors.grey.shade300, // Color de fons del missatge
+                borderRadius: BorderRadius.circular(8), // Cantonades arrodonides
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,11 +117,11 @@ class _MessageListScreenState extends State<MessageListScreen> {
                     msg.author,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 16, // Destaquem el nom de l'autor
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(msg.body),
+                  Text(msg.body), // Cos del missatge
                 ],
               ),
             );
@@ -125,7 +129,7 @@ class _MessageListScreenState extends State<MessageListScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {}, // Botó flotant (sense acció per ara)
         child: const Icon(Icons.add),
       ),
     );

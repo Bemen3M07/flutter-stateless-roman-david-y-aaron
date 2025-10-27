@@ -1,3 +1,5 @@
+// Exercici 6: Llista de missatges amb AppBar amb accions i BottomAppBar personalitzada
+// Afegim comentaris per descriure cada secció de la UI i la càrrega incremental.
 import 'dart:math';
 import 'package:flutter/material.dart';
 
@@ -20,7 +22,7 @@ class MessageListApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Message List',
-      home: const MessageListScreen(),
+      home: const MessageListScreen(), // Pantalla principal
     );
   }
 }
@@ -33,8 +35,8 @@ class MessageListScreen extends StatefulWidget {
 }
 
 class _MessageListScreenState extends State<MessageListScreen> {
-  final List<Message> _messages = [];
-  final _random = Random();
+  final List<Message> _messages = []; // Llista de missatges renderitzats
+  final _random = Random(); // Per escollir autors aleatoris
 
   final List<String> _names = [
     "Ellison Curry",
@@ -67,10 +69,11 @@ class _MessageListScreenState extends State<MessageListScreen> {
   @override
   void initState() {
     super.initState();
-    _loadMoreMessages();
+    _loadMoreMessages(); // Carreguem un primer batch en iniciar
   }
 
   void _loadMoreMessages() {
+    // Crea 20 missatges nous i els afegeix a la llista existent
     final newMessages = List.generate(20, (index) {
       return Message(_names[_random.nextInt(_names.length)], _body);
     });
@@ -85,9 +88,9 @@ class _MessageListScreenState extends State<MessageListScreen> {
       appBar: AppBar(
         title: const Text('Message List'),
         actions: const [
-          Icon(Icons.search),
+          Icon(Icons.search), // Acció de cerca (no implementada)
           SizedBox(width: 12),
-          Icon(Icons.more_vert),
+          Icon(Icons.more_vert), // Menú d'opcions (no implementat)
           SizedBox(width: 8),
         ],
       ),
@@ -95,6 +98,7 @@ class _MessageListScreenState extends State<MessageListScreen> {
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollInfo) {
           if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+            // Arribem al final del llistat, carreguem més
             _loadMoreMessages();
           }
           return false;
@@ -108,7 +112,7 @@ class _MessageListScreenState extends State<MessageListScreen> {
                 top: 6,
                 bottom: 6,
                 left: 8,
-                right: 60,
+                right: 60, // Deixem marge a la dreta per estètica
               ),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
@@ -126,7 +130,7 @@ class _MessageListScreenState extends State<MessageListScreen> {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(msg.body),
+                  Text(msg.body), // Contingut del missatge
                 ],
               ),
             );
@@ -135,17 +139,17 @@ class _MessageListScreenState extends State<MessageListScreen> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {}, // Botó flotant (placeholder)
         child: const Icon(Icons.add),
       ),
 
       // 👇 BottomAppBar personalizada
       bottomNavigationBar: BottomAppBar(
-        color: Colors.blue.shade700, //  color de fondo
-        shape: const CircularNotchedRectangle(), // curva para FAB (opcional)
-        notchMargin: 6, // espacio para el botón flotante
+        color: Colors.blue.shade700, // Color de fons
+        shape: const CircularNotchedRectangle(), // Corba per al FAB (opcional)
+        notchMargin: 6, // Espai per al botó flotant
         child: SizedBox(
-          height: 65, // 📏 altura personalizada
+          height: 65, // Alçada personalitzada
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: const [
