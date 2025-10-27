@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MainApp());
-}
+void main() => runApp(const MainApp());
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Image(
-            image: AssetImage('assets/images/davidtop.jpg'),
-          ),
+        body: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                'Aplicación con imagen',
+              ),
+            ),
+            Image.asset('assets/images/davidtop.jpg', width: 150, height: 150),
+          ],
         ),
       ),
     );
