@@ -10,6 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_svg: ^2.2.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -20,3 +22,4 @@ flutter:
 
   assets:
     - assets/images/davidtop.jpg
+    - assets/images/dice_1.svg
