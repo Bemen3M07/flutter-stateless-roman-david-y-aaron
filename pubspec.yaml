@@ -9,7 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_svg: ^2.2.2   # <-- Añadido para poder usar SVG
+
+  flutter_svg: ^2.2.2
 
 dev_dependencies:
   flutter_test:
@@ -21,4 +22,4 @@ flutter:
 
   assets:
     - assets/images/davidtop.jpg
-    - assets/diceroller/       # <-- Añadido para incluir todos tus SVG del dado
+    - assets/diceroller/

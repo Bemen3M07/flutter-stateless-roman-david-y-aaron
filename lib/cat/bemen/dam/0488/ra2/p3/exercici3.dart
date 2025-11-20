@@ -1,6 +1,7 @@
 // Exercici 3: Text amb imatge d'actius (assets)
 // En aquest exercici es mostra un títol i una imatge carregada des de assets.
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 void main() => runApp(const MainApp());
 
@@ -22,7 +23,8 @@ class MainApp extends StatelessWidget {
               ),
             ),
             // Image.asset carrega una imatge des de la carpeta assets definida a pubspec.yaml
-            Image.asset('assets/images/davidtop.jpg', width: 150, height: 150),
+            SvgPicture.asset('assets/images/dice_1.svg', semanticsLabel: 'Dart Logo'),
+            //Image.asset('assets/images/dice_1.svg', width: 150, height: 150),
           ],
         ),
       ),
