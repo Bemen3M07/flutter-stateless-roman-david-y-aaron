@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 
 void main() {
+  // Ejecuta la aplicación principal
   runApp(const MyApp());
 }
 
+// ---------------------------------------------------------------------------
+// 🟦 1. APLICACIÓN PRINCIPAL (StatelessWidget)
+// ---------------------------------------------------------------------------
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ScoreCounter(),
+      home: ScoreCounter(), // Pantalla principal del contador
     );
   }
 }
 
+// ---------------------------------------------------------------------------
+// 🟦 2. WIDGET CON ESTADO QUE GESTIONA LAS PUNTUACIONES
+// ---------------------------------------------------------------------------
 class ScoreCounter extends StatefulWidget {
   @override
   State<ScoreCounter> createState() => _ScoreCounterState();
@@ -22,10 +29,13 @@ class ScoreCounter extends StatefulWidget {
 
 class _ScoreCounterState extends State<ScoreCounter> {
 
-  // Puntuaciones de los dos equipos
+  // Puntuaciones de cada equipo
   int scoreTeamA = 0;
   int scoreTeamB = 0;
 
+  // -------------------------------------------------------------------------
+  // 🟦 3. INTERFAZ DEL CONTADOR
+  // -------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,19 +43,23 @@ class _ScoreCounterState extends State<ScoreCounter> {
 
       appBar: AppBar(
         title: Text("Exercici 2.5 – Counter"),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
+        backgroundColor: Colors.blue,     // AppBar azul
+        foregroundColor: Colors.white,    // Texto blanco
       ),
 
       body: Center(
+        // Distribución horizontal: TEAM A | TEAM B
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Espaciado uniforme
 
-            // COLUMNA EQUIPO A
+          children: [
+            // ---------------------------------------------------------------
+            // 🟥 COLUMNA EQUIPO A
+            // ---------------------------------------------------------------
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Nombre del equipo
                 Text(
                   "TEAM A",
                   style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
@@ -53,7 +67,7 @@ class _ScoreCounterState extends State<ScoreCounter> {
 
                 SizedBox(height: 20),
 
-                // Puntuación del equipo A
+                // Puntuación mostrada en grande
                 Text(
                   "$scoreTeamA",
                   style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
@@ -61,15 +75,15 @@ class _ScoreCounterState extends State<ScoreCounter> {
 
                 SizedBox(height: 20),
 
-                // Botón SCORE para sumar puntos
+                // Botón para sumar puntos al equipo A
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.blue,  // Fondo azul
+                    foregroundColor: Colors.white, // Texto blanco
                   ),
                   onPressed: () {
                     setState(() {
-                      scoreTeamA++;
+                      scoreTeamA++; // Aumenta la puntuación
                     });
                   },
                   child: Text("SCORE"),
@@ -77,10 +91,13 @@ class _ScoreCounterState extends State<ScoreCounter> {
               ],
             ),
 
-            //COLUMNA EQUIPO B
+            // ---------------------------------------------------------------
+            // 🟦 COLUMNA EQUIPO B
+            // ---------------------------------------------------------------
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Nombre del equipo
                 Text(
                   "TEAM B",
                   style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
@@ -88,7 +105,7 @@ class _ScoreCounterState extends State<ScoreCounter> {
 
                 SizedBox(height: 20),
 
-                // Puntuación del equipo B
+                // Puntuación mostrada
                 Text(
                   "$scoreTeamB",
                   style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
@@ -96,7 +113,7 @@ class _ScoreCounterState extends State<ScoreCounter> {
 
                 SizedBox(height: 20),
 
-                // Botón SCORE para sumar puntos
+                // Botón para sumar puntos al equipo B
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
@@ -104,7 +121,7 @@ class _ScoreCounterState extends State<ScoreCounter> {
                   ),
                   onPressed: () {
                     setState(() {
-                      scoreTeamB++;
+                      scoreTeamB++; // Suma para B
                     });
                   },
                   child: Text("SCORE"),
