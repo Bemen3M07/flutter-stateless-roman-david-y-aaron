@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
 
-// Punto de entrada de la aplicación.
-// Ejecuta la app que muestra la lista de la compra.
+// ---------------------------------------------------------------------------
+// 🟦 1. FUNCIÓN PRINCIPAL
+// ---------------------------------------------------------------------------
+// Punto de entrada de la aplicación. Ejecuta la app de lista de la compra.
 void main() => runApp(const ShoppingListApp());
 
-// Widget principal sin estado que configura MaterialApp.
+// ---------------------------------------------------------------------------
+// 🟦 2. WIDGET PRINCIPAL (StatelessWidget)
+// ---------------------------------------------------------------------------
+// Configura el MaterialApp y define la página inicial.
 class ShoppingListApp extends StatelessWidget {
   const ShoppingListApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // Título que aparece en el árbol de widgets (útil para debugging).
-      title: 'Exercici 2.6 - Llista de la compra',
+      title: 'Exercici 2.6 - Llista de la compra', // Título para debugging
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: Colors.blueGrey, // Color principal de la app
       ),
-      // La página principal de la app es ShoppingListPage.
-      home: const ShoppingListPage(),
+      home: const ShoppingListPage(), // Página principal
     );
   }
 }
 
-// Modelo simple para representar un elemento de la lista: nombre y cantidad.
+// ---------------------------------------------------------------------------
+// 🟦 3. MODELO DE DATOS
+// ---------------------------------------------------------------------------
+// Representa un elemento de la lista con nombre y cantidad
 class ShoppingItem {
   final String name;
   final int quantity;
@@ -30,7 +36,10 @@ class ShoppingItem {
   ShoppingItem({required this.name, required this.quantity});
 }
 
-// Página con estado que contiene la lógica de añadir/mostrar elementos.
+// ---------------------------------------------------------------------------
+// 🟦 4. PÁGINA PRINCIPAL CON ESTADO
+// ---------------------------------------------------------------------------
+// Contiene la lógica para añadir y eliminar elementos de la lista.
 class ShoppingListPage extends StatefulWidget {
   const ShoppingListPage({super.key});
 
@@ -39,27 +48,29 @@ class ShoppingListPage extends StatefulWidget {
 }
 
 class _ShoppingListPageState extends State<ShoppingListPage> {
-  // Controladores para los campos de texto (nombre y cantidad).
+  // Controladores de los campos de texto (nombre y cantidad)
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _qtyController = TextEditingController();
 
-  // Lista en memoria que guarda los elementos añadidos.
+  // Lista que almacena los elementos añadidos
   final List<ShoppingItem> _items = [];
 
   @override
   void dispose() {
-    // Liberar recursos de los controladores cuando el widget se destruye.
+    // Liberar recursos de los controladores cuando se destruye el widget
     _nameController.dispose();
     _qtyController.dispose();
     super.dispose();
   }
 
-  // Añade un elemento a la lista. Valida el nombre y normaliza la cantidad.
+  // -------------------------------------------------------------------------
+  // 🟦 5. MÉTODO PARA AÑADIR ELEMENTOS
+  // -------------------------------------------------------------------------
   void _addItem() {
-    final name = _nameController.text.trim();
-    final qtyText = _qtyController.text.trim();
+    final name = _nameController.text.trim(); // Nombre sin espacios
+    final qtyText = _qtyController.text.trim(); // Cantidad como texto
 
-    // Si no hay nombre, mostramos un SnackBar y no hacemos nada.
+    // Si el nombre está vacío, mostrar un mensaje y no añadir
     if (name.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Introdueix un nom')),
@@ -67,14 +78,14 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
       return;
     }
 
-    // Intentamos obtener la cantidad como entero; si falla, usamos 1 por defecto.
+    // Convertir cantidad a número entero; si falla, usar 1
     int qty = 1;
     if (qtyText.isNotEmpty) {
       qty = int.tryParse(qtyText) ?? 1;
-      if (qty <= 0) qty = 1; // evitar cantidades no positivas.
+      if (qty <= 0) qty = 1; // Evitar cantidades no positivas
     }
 
-    // Actualizamos el estado: añadimos el nuevo elemento y limpiamos campos.
+    // Actualizar la lista y limpiar los campos de entrada
     setState(() {
       _items.add(ShoppingItem(name: name, quantity: qty));
       _nameController.clear();
@@ -82,16 +93,20 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
     });
   }
 
-  // Elimina un elemento por su índice en la lista.
+  // -------------------------------------------------------------------------
+  // 🟦 6. MÉTODO PARA ELIMINAR ELEMENTOS
+  // -------------------------------------------------------------------------
   void _removeItem(int index) {
     setState(() {
-      _items.removeAt(index);
+      _items.removeAt(index); // Elimina el elemento por índice
     });
   }
 
+  // -------------------------------------------------------------------------
+  // 🟦 7. CONSTRUCCIÓN DE LA INTERFAZ
+  // -------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-    // Estructura principal de la pantalla: AppBar + formulario + lista.
     return Scaffold(
       appBar: AppBar(
         title: const Text('Llista de la compra'),
@@ -99,12 +114,14 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(12.0), // Espaciado general
           child: Column(
             children: [
-              // Tarjeta que contiene los campos de entrada y el botón "Add".
+              // ---------------------------------------------------------------
+              // 🟩 TARJETA CON CAMPOS DE ENTRADA Y BOTÓN "ADD"
+              // ---------------------------------------------------------------
               Card(
-                elevation: 2,
+                elevation: 2, // Sombra ligera
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -112,7 +129,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
                     children: [
-                      // Campo para el nombre del artículo.
+                      // Campo de texto para el nombre del artículo
                       TextField(
                         controller: _nameController,
                         decoration: const InputDecoration(
@@ -121,7 +138,8 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      // Campo para la cantidad; usa teclado numérico.
+
+                      // Campo de texto para la cantidad (numérico)
                       TextField(
                         controller: _qtyController,
                         keyboardType: TextInputType.number,
@@ -131,14 +149,16 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      // Botón para añadir el elemento: llama a _addItem.
+
+                      // Botón para añadir el elemento a la lista
                       Align(
                         alignment: Alignment.center,
                         child: ElevatedButton(
                           onPressed: _addItem,
                           style: ElevatedButton.styleFrom(
-                            shape: const StadiumBorder(),
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                            shape: const StadiumBorder(), // Botón redondeado
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 24, vertical: 12),
                           ),
                           child: const Text('Add'),
                         ),
@@ -147,24 +167,31 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                   ),
                 ),
               ),
+
               const SizedBox(height: 12),
-              // Área expandible donde se muestra la lista de elementos añadidos.
+
+              // ---------------------------------------------------------------
+              // 🟩 LISTA DE ELEMENTOS AÑADIDOS
+              // ---------------------------------------------------------------
               Expanded(
                 child: _items.isEmpty
-                    // Texto indicativo si la lista está vacía.
-                    ? const Center(child: Text('No hi ha elements. Afegeix-ne algun.'))
-                    // ListView con separador entre elementos.
+                    // Texto indicativo si la lista está vacía
+                    ? const Center(
+                        child: Text('No hi ha elements. Afegeix-ne algun.'))
+                    // Lista con separadores entre elementos
                     : ListView.separated(
                         itemCount: _items.length,
                         separatorBuilder: (_, __) => const Divider(height: 1),
                         itemBuilder: (context, index) {
                           final item = _items[index];
-                          // Cada entrada muestra nombre, cantidad y botón eliminar.
                           return ListTile(
+                            // Nombre del artículo
                             title: Text(item.name),
+                            // Cantidad en un círculo
                             leading: CircleAvatar(
                               child: Text(item.quantity.toString()),
                             ),
+                            // Botón para eliminar el elemento
                             trailing: IconButton(
                               icon: const Icon(Icons.delete_outline),
                               onPressed: () => _removeItem(index),

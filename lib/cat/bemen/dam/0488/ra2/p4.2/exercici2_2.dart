@@ -1,92 +1,106 @@
-import 'package:flutter/material.dart'; // Importa librerías de Flutter
+import 'package:flutter/material.dart'; // Importa las herramientas visuales de Flutter
 
-
-void main() { // Función principal de la app
-  // Simplificamos la inicialización
-  runApp(const MaterialApp(home: SayHelloApp())); // Ejecuta la app con MaterialApp
+void main() {
+  // Ejecuta la aplicación usando directamente MaterialApp con la pantalla principal
+  runApp(const MaterialApp(home: SayHelloApp()));
 }
 
+// ---------------------------------------------------------------------------
+// 1. SayHelloApp: Widget con estado (StatefulWidget)
+// ---------------------------------------------------------------------------
+class SayHelloApp extends StatefulWidget {
+  const SayHelloApp({super.key});
 
-// 1. StatefulWidget para la gestión de estado
-class SayHelloApp extends StatefulWidget { // Widget con estado (puede cambiar)
-  const SayHelloApp({super.key}); // Constructor con key opcional
   @override
-  State<SayHelloApp> createState() => _SayHelloAppState(); // Crea el estado del widget
+  State<SayHelloApp> createState() => _SayHelloAppState();
 }
 
+// ---------------------------------------------------------------------------
+// 2. Clase que maneja el estado del widget
+// ---------------------------------------------------------------------------
+class _SayHelloAppState extends State<SayHelloApp> {
 
-class _SayHelloAppState extends State<SayHelloApp> { // Clase que maneja el estado
-  // 2. Controlador para leer la entrada de texto
-  final TextEditingController _controller = TextEditingController(); // Controla el input de texto
+  // Controlador para leer el texto introducido en el TextField
+  final TextEditingController _controller = TextEditingController();
 
+  // Función que muestra un diálogo emergente al presionar el botón
+  void _showDialog(BuildContext context) {
+    String name = _controller.text.trim(); // Obtiene el nombre sin espacios extra
 
-  // Lógica para mostrar el diálogo al presionar el botón
-  void _showDialog(BuildContext context) { // Función que muestra el diálogo
-    String name = _controller.text.trim(); // Obtiene texto sin espacios
-    String greeting = name.isEmpty ? "HELLO !" : "HELLO $name"; // Saludo si está vacío
+    // Si está vacío, muestra "HELLO !"; si no, incluye el nombre
+    String greeting = name.isEmpty ? "HELLO !" : "HELLO $name";
 
-
-    showDialog( // Muestra ventana emergente
-      context: context, // Contexto actual de la app
-      builder: (_) => AlertDialog( // Construye diálogo de alerta
-        content: Text( // Contenido del diálogo
-          greeting, // Texto del saludo
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold), // Estilo: tamaño 24, negrita
-        ),
-      ),
-    );
-  }
-
-
-  @override
-  void dispose() { // Método que se ejecuta al destruir el widget
-    _controller.dispose(); // Libera memoria del controlador
-    super.dispose(); // Llama al dispose del widget padre
-  }
-
-
-  @override
-  Widget build(BuildContext context) { // Método que construye la interfaz
-    return Scaffold( // Estructura básica de una pantalla
-      body: Center( // Centra todo el contenido
-        child: Padding( // Añade espaciado interno
-          padding: const EdgeInsets.all(40.0), // 40 píxeles de margen en todos los lados
-          child: Column( // Organiza widgets en columna vertical
-            mainAxisAlignment: MainAxisAlignment.center, // Centra verticalmente
-            // Centramos los widgets horizontalmente
-            crossAxisAlignment: CrossAxisAlignment.center, // Centra horizontalmente
-            children: <Widget>[ // Lista de widgets hijos
-              // Campo de texto
-              SizedBox( // Usamos SizedBox para limitar el ancho del TextField
-                width: 300, // Ancho fijo de 300 píxeles
-                child: TextField( // Campo de entrada de texto
-                  controller: _controller, // Conecta con el controlador
-                  decoration: const InputDecoration( // Decoración del campo
-                    labelText: 'Name', // Etiqueta que dice "Name"
-                    border: OutlineInputBorder(), // Borde rectangular
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30), // Espacio vertical de 30 píxeles
-              // Botón "SayHello"
-              ElevatedButton( // Botón con elevación (sombra)
-                // Estilo para color y forma del botón pequeño
-                style: ElevatedButton.styleFrom( // Personalización del estilo
-                  backgroundColor: Colors.blue.shade800, // Color azul oscuro de fondo
-                  foregroundColor: Colors.white, // Color blanco del texto
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15), // Ajuste de tamaño: 20px horizontal, 15px vertical
-                  shape: RoundedRectangleBorder( // Forma del botón
-                    borderRadius: BorderRadius.circular(20), // Borde redondeado de 20px
-                  ),
-                ),
-                onPressed: () => _showDialog(context), // Acción: ejecuta _showDialog al presionar
-                child: const Text('SayHello', style: TextStyle(fontSize: 18)), // Texto del botón con tamaño 18
-              ),
-            ], // Fin de la lista de widgets
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        content: Text(
+          greeting, // Mensaje a mostrar en el diálogo
+          style: const TextStyle(
+            fontSize: 24, // Tamaño grande de letra
+            fontWeight: FontWeight.bold, // Negrita
           ),
         ),
       ),
     );
   }
-} // Fin de la clase
 
+  @override
+  void dispose() {
+    _controller.dispose(); // Libera memoria del controlador al cerrar el widget
+    super.dispose();
+  }
+
+  // ---------------------------------------------------------------------------
+  // 3. Construcción de la interfaz gráfica
+  // ---------------------------------------------------------------------------
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold( // Estructura visual principal de la pantalla
+      body: Center( // Centra todo el contenido en pantalla
+        child: Padding(
+          padding: const EdgeInsets.all(40.0), // Márgenes de 40 px alrededor
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center, // Centrado vertical
+            crossAxisAlignment: CrossAxisAlignment.center, // Centrado horizontal
+            children: <Widget>[
+
+              // Campo de entrada de texto para escribir el nombre
+              SizedBox(
+                width: 300, // Limita el ancho del campo de texto
+                child: TextField(
+                  controller: _controller, // Conecta el campo con el controlador
+                  decoration: const InputDecoration(
+                    labelText: 'Name', // Etiqueta flotante
+                    border: OutlineInputBorder(), // Borde rectangular visible
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 30), // Espacio vertical entre widgets
+
+              // Botón para ejecutar el saludo
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue.shade800, // Color del botón
+                  foregroundColor: Colors.white, // Color del texto del botón
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 15,
+                  ), // Tamaño interno del botón
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20), // Botón redondeado
+                  ),
+                ),
+                onPressed: () => _showDialog(context), // Acción del botón
+                child: const Text(
+                  'SayHello',
+                  style: TextStyle(fontSize: 18), // Tamaño del texto del botón
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

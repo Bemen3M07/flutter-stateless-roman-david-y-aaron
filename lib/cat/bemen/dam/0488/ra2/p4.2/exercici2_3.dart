@@ -1,8 +1,8 @@
-import 'dart:math';
+import 'dart:math'; // Para generar números aleatorios
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MyApp()); // Ejecuta la aplicación
 }
 
 class MyApp extends StatelessWidget {
@@ -10,58 +10,65 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // MaterialApp con la pantalla principal del juego
     return MaterialApp(
       home: SecretNumberOrdered(),
     );
   }
 }
 
+// ---------------------------------------------------------------------------
+// 1️⃣ StatefulWidget para el juego del número secreto
+// ---------------------------------------------------------------------------
 class SecretNumberOrdered extends StatefulWidget {
   @override
   State<SecretNumberOrdered> createState() => _SecretNumberOrderedState();
 }
 
+// ---------------------------------------------------------------------------
+// 2️⃣ Estado del widget: contiene la lógica del juego
+// ---------------------------------------------------------------------------
 class _SecretNumberOrderedState extends State<SecretNumberOrdered> {
 
-  // Número secreto generado entre 0 y 100
+  // Número secreto entre 0 y 100 generado aleatoriamente
   int secretNumber = Random().nextInt(101);
 
-  // Controlador para leer el texto del usuario
+  // Controlador para leer el número que escribe el usuario
   TextEditingController controller = TextEditingController();
 
-  // Número de intentos realizados
+  // Contador de intentos
   int intentos = 0;
 
-  // Resultado después de validar
+  // Mensaje de resultado (mayor, menor, acertado, inválido)
   String resultado = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Fondo blanco
+      backgroundColor: Colors.white, // Fondo blanco del juego
 
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20), // Margen general
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
 
-              // -------------------------------------------------
-              // 1️⃣ TÍTULO + Nº SECRETO A LA DERECHA (PARA PRUEBAS)
-              // -------------------------------------------------
+            children: [
+              // -----------------------------------------------------------------
+              // 🟦 1. TÍTULO DEL JUEGO (incluye el número secreto para pruebas)
+              // -----------------------------------------------------------------
               Text(
-                "Adivina el número secreto  ( $secretNumber )",
+                "Adivina el número secreto  ( $secretNumber )", 
+                // NOTA: Se muestra solo para comprobar si funciona
                 style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              // NOTA: El número secreto aparece solo para pruebas
 
               SizedBox(height: 30),
 
-              // -------------------------------------------------
-              // 2️⃣ INDICACIÓN + TEXTFIELD
-              // -------------------------------------------------
+              // -----------------------------------------------------------------
+              // 🟦 2. INDICACIÓN AL USUARIO + CAMPO DE TEXTO
+              // -----------------------------------------------------------------
               Text(
                 "Introduce un número del 0 al 100:",
                 style: TextStyle(fontSize: 18),
@@ -70,8 +77,8 @@ class _SecretNumberOrderedState extends State<SecretNumberOrdered> {
               SizedBox(height: 10),
 
               TextField(
-                controller: controller,
-                keyboardType: TextInputType.number,
+                controller: controller, // Recoge lo que escribe el usuario
+                keyboardType: TextInputType.number, // Teclado numérico
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: "Número",
@@ -80,15 +87,18 @@ class _SecretNumberOrderedState extends State<SecretNumberOrdered> {
 
               SizedBox(height: 20),
 
-              // BOTÓN VALIDAR (AZUL)
+              // -----------------------------------------------------------------
+              // 🟦 3. BOTÓN VALIDAR (compara la respuesta con el número secreto)
+              // -----------------------------------------------------------------
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.blue, // Botón azul
+                  foregroundColor: Colors.white, // Texto blanco
                 ),
                 onPressed: () {
-                  int? guess = int.tryParse(controller.text);
+                  int? guess = int.tryParse(controller.text); // Intenta convertir a número
 
+                  // Si no es número → error
                   if (guess == null) {
                     setState(() {
                       resultado = "Introduce un número válido.";
@@ -96,10 +106,10 @@ class _SecretNumberOrderedState extends State<SecretNumberOrdered> {
                     return;
                   }
 
-                  // Suma un intento
+                  // Sumar intento
                   intentos++;
 
-                  // Comprobación
+                  // Comparar con el número secreto
                   if (guess < secretNumber) {
                     setState(() {
                       resultado = "El número que buscas es más grande.";
@@ -110,7 +120,7 @@ class _SecretNumberOrderedState extends State<SecretNumberOrdered> {
                     });
                   } else {
                     setState(() {
-                      resultado = "¡Has acertado!";
+                      resultado = "¡Has acertado! 🎉";
                     });
                   }
                 },
@@ -119,8 +129,9 @@ class _SecretNumberOrderedState extends State<SecretNumberOrdered> {
 
               SizedBox(height: 20),
 
-              //  CONTADOR DE INTENTOS
-
+              // -----------------------------------------------------------------
+              // 🟦 4. CONTADOR DE INTENTOS
+              // -----------------------------------------------------------------
               Text(
                 "Intentos: $intentos",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -128,7 +139,9 @@ class _SecretNumberOrderedState extends State<SecretNumberOrdered> {
 
               SizedBox(height: 20),
 
-              //  RESULTADO DEL JUEGO
+              // -----------------------------------------------------------------
+              // 🟦 5. MENSAJE DE RESULTADO
+              // -----------------------------------------------------------------
               Text(
                 resultado,
                 style: TextStyle(fontSize: 22, color: Colors.black),
